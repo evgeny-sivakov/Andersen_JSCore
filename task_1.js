@@ -1,5 +1,3 @@
-// Converts the input to a defined numeric system.
-
 function convertNumber() {
   const sourceNumber = +window.prompt('Enter number to convert');
   const radix = +window.prompt('Enter numeral system base');
@@ -13,8 +11,6 @@ function convertNumber() {
 
   console.log(result);
 }
-
-// Checks the inputs for a valid integer and performs arithmetic operations.
 
 function addDivide() {
   const first = +window.prompt('Enter the first number');
