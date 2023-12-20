@@ -1,4 +1,4 @@
-// Converts input to a defined numeric system.
+// Converts the input to a defined numeric system.
 
 function convertNumber() {
   const sourceNumber = +window.prompt('Enter number to convert');
