@@ -11,7 +11,6 @@ function makeObjectDeepCopy(obj) {
   const copy = {};
 
   sourceKeys.forEach((key) => {
-
     if (typeof obj[key] === 'object') {
       makeObjectDeepCopy(obj[key]);
     }
@@ -29,6 +28,28 @@ function selectFromInterval(array, firstIndex, secondIndex) {
 
   const [start, end] = [firstIndex, secondIndex].sort((a, b) => a - b);
   const result = array.filter((el) => start <= el && el <= end);
-  
+
   return result;
 }
+
+const myIterable = {};
+myIterable[Symbol.iterator] = function () {
+  let currentValue = this.from;
+  const lastValue = this.to;
+
+  if (
+    lastValue < currentValue ||
+    !isNumber(currentValue) ||
+    !isNumber(lastValue)
+  ) {
+    throw new Error('Ошибка!');
+  }
+
+  return {
+    next: function () {
+      return currentValue <= lastValue
+        ? { value: currentValue++, done: false }
+        : { done: true };
+    },
+  };
+};
