@@ -3,7 +3,7 @@ function isNumber(num) {
 }
 
 function isValidArray(arr) {
-  return arr.filter((el) => typeof el !== 'number').length === 0;
+  return arr.every((el) => typeof el === 'number' && !isNaN(el));
 }
 
 function makeObjectDeepCopy(obj) {
