@@ -1,30 +1,37 @@
 function convertNumber() {
-  const sourceNumber = +window.prompt('Enter number to convert');
-  const radix = +window.prompt('Enter numeral system base');
+  const firstPrompt = prompt('Enter number to convert');
 
-  if (isNaN(sourceNumber) || isNaN(radix)) {
-    console.log('Некорректный ввод!');
-    return;
+  if (firstPrompt === '') {
+    throw new Error('Некорректный ввод!');
   }
 
-  const result = sourceNumber.toString(radix);
+  const sourceNumber = +firstPrompt;
+  const secondPrompt = prompt('Enter numeral system base');
 
-  console.log(result);
+  if (secondPrompt === '') {
+    throw new Error('Некорректный ввод!');
+  }
+
+  const radix = +secondPrompt;
+
+  if (isNaN(sourceNumber) || isNaN(radix) || radix < 2 || radix > 36) {
+    return console.log('Некорректный ввод!');
+  }
+
+  console.log(sourceNumber.toString(radix));
 }
 
 function addDivide() {
-  const first = +window.prompt('Enter the first number');
+  const first = +prompt('Enter the first number');
 
   if (isNaN(first)) {
-    console.log('Некорректный ввод!');
-    return;
+    return console.log('Некорректный ввод!');
   }
 
-  const second = +window.prompt('Enter the second number');
+  const second = +prompt('Enter the second number');
 
   if (isNaN(second)) {
-    console.log('Некорректный ввод!');
-    return;
+    return console.log('Некорректный ввод!');
   }
 
   const result = `Ответ: ${first + second}, ${first / second}`;
