@@ -1,18 +1,28 @@
-/* function concatStrings(str, separator = '') {
-    console.log(typeof str)
-    if (typeof str !== 'string') {
-        return
-    }
-  return function (next) {
-    if (next === undefined) {
-        return str;
-      }
-
-    return concatStrings(str + separator + next);
-  };
+function isString(str) {
+  return typeof str === 'string';
 }
 
-console.log(concatStrings(2)(2)('third')()); */
+function concatStrings(str, separator) {
+  let string = isString(str) ? str : '';
+  let sep = isString(separator) ? separator : '';
+
+  function skipCurring(arg) {
+    return arg === undefined ? string : skipCurring;
+  }
+
+  if (typeof str === 'string') {
+    return function (next) {
+
+      if (next === undefined) {
+        return str;
+      }
+      
+      return isString(next) ? concatStrings(str + sep + next, sep) : skipCurring;
+    };
+  }
+
+  return skipCurring;
+}
 
 class Calculator {
   constructor(num_1, num_2) {
@@ -28,55 +38,52 @@ class Calculator {
     this.num_1 = num_1;
     this.num_2 = num_2;
   }
-  setX = (num) => {
-    if (typeof num !== 'number' || !isFinite(num)) {
+
+  static updateProp(prop, currentState, newValue) {
+    if (typeof newValue !== 'number' || !isFinite(newValue)) {
       throw new Error('Ошибка!');
     }
+    
+    currentState[prop] = newValue;
+  }
 
-    this.num_1 = num;
+  static calc(operation, operand_1, operand_2) {
+    switch (operation) {
+      case 'add':
+        return operand_1 + operand_2;
+      case 'multiply':
+        return operand_1 * operand_2;
+      case 'subtract':
+        return operand_1 - operand_2;
+      case 'divide':
+        if (operand_2 === 0) {
+          throw new Error('Ошибка!');
+        }
+        return operand_1 / operand_2;
+    }
+  }
+
+  setX = (num) => {
+    Calculator.updateProp('num_1', this, num);
   };
 
   setY = (num) => {
-    if (typeof num !== 'number' || !isFinite(num)) {
-      throw new Error('Ошибка!');
-    }
-
-    this.num_2 = num;
+    Calculator.updateProp('num_2', this, num);
   };
 
   logSum = () => {
-    function sum(first, second) {
-      console.log(first + second);
-    }
-
-    sum(this.num_1, this.num_2);
+    console.log(Calculator.calc('add', this.num_1, this.num_2))
   };
 
   logMul = () => {
-    function mul(first, second) {
-      console.log(first * second);
-    }
-
-    mul(this.num_1, this.num_2);
+    console.log(Calculator.calc('multiply', this.num_1, this.num_2))
   };
 
   logSub = () => {
-    function sub(first, second) {
-      console.log(first - second);
-    }
-
-    sub(this.num_1, this.num_2);
+    console.log(Calculator.calc('subtract', this.num_1, this.num_2))
   };
 
   logDiv = () => {
-    function div(first, second) {
-      if (second === 0) {
-        throw new Error('Ошибка!');
-      }
-
-      console.log(first / second);
-    }
-
-    div(this.num_1, this.num_2);
+    console.log(Calculator.calc('divide', this.num_1, this.num_2))
   };
 }
