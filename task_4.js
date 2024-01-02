@@ -2,26 +2,27 @@ function isString(str) {
   return typeof str === 'string';
 }
 
-function concatStrings(str, separator) {
-  let string = isString(str) ? str : '';
+function concatStrings(strArg, separator) {
+  let strResult = isString(strArg) ? strArg : '';
   let sep = isString(separator) ? separator : '';
 
-  function skipCurring(arg) {
-    return arg === undefined ? string : skipCurring;
+  function skipCurrying(arg) {
+    return arg === undefined ? strResult : skipCurrying;
   }
 
-  if (typeof str === 'string') {
+  if (isString(strArg)) {
     return function (next) {
-
       if (next === undefined) {
-        return str;
+        return strArg;
       }
-      
-      return isString(next) ? concatStrings(str + sep + next, sep) : skipCurring;
+
+      return isString(next)
+        ? concatStrings(strArg + sep + next, sep)
+        : skipCurrying;
     };
   }
 
-  return skipCurring;
+  return skipCurrying;
 }
 
 class Calculator {
@@ -43,7 +44,7 @@ class Calculator {
     if (typeof newValue !== 'number' || !isFinite(newValue)) {
       throw new Error('Ошибка!');
     }
-    
+
     currentState[prop] = newValue;
   }
 
