@@ -1,62 +1,62 @@
 class Stack {
-    constructor(capacity = 10) {
-        this.items = [];
-        this.top = 0;
-        this.capacity = capacity;
+  constructor(capacity = 10) {
+    this.items = [];
+    this.top = 0;
+    this.capacity = capacity;
+  }
+
+  static fromIterable(iterable) {
+    if (typeof iterable[Symbol.iterator] !== 'function') {
+      throw new Error('Ошибка!');
     }
 
-    static fromIterable(iterable) {
-        if (typeof iterable[Symbol.iterator] !== 'function') {
-            throw new Error('Ошибка!')
-        }
+    const capacity = iterable.length;
+    const stack = new Stack(capacity);
 
-        const capacity = iterable.length;
-        const stack = new Stack(capacity);
-
-        for (const item of iterable) {
-            stack.push(item);
-        }
-
-        return stack;
+    for (const item of iterable) {
+      stack.push(item);
     }
 
-    push(element) {
-        if (this.top === this.capacity) {
-            throw new Error('Ошибка!')
-        }
+    return stack;
+  }
 
-        this.items[this.top] = element;
-        this.top = this.top + 1;
-
-        return element;
+  push(element) {
+    if (this.top === this.capacity) {
+      throw new Error('Ошибка!');
     }
 
-    pop() {
-        if (this.isEmpty()) {
-            throw new Error('Ошибка!')
-        }
-        
-        const poped = this.items[this.top];
+    this.items[this.top] = element;
+    this.top = this.top + 1;
 
-        delete this.items[this.top - 1];
-        this.top = this.top - 1;
+    return element;
+  }
 
-        return poped;
+  pop() {
+    if (this.isEmpty()) {
+      throw new Error('Ошибка!');
     }
 
-    peek() {
-        if (this.isEmpty()) {
-            return null;
-        }
+    const poped = this.items[this.top];
 
-        return this.items[this.top - 1];
+    delete this.items[this.top - 1];
+    this.top = this.top - 1;
+
+    return poped;
+  }
+
+  peek() {
+    if (this.isEmpty()) {
+      return null;
     }
 
-    isEmpty() {
-        return this.top === 0;
-    }
+    return this.items[this.top - 1];
+  }
 
-    toArray() {
-        return this.items;
-    }
+  isEmpty() {
+    return this.top === 0;
+  }
+
+  toArray() {
+    return this.items;
+  }
 }
