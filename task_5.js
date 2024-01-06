@@ -44,12 +44,12 @@ class Stack {
       throw new Error('Ошибка!');
     }
 
-    const popped = this.top;
+    const poppedNode = this.top;
 
-    this.top = popped.next;
+    this.top = poppedNode.next;
     this.length -= 1;
 
-    return popped;
+    return poppedNode.value;
   }
 
   peek() {
@@ -57,7 +57,7 @@ class Stack {
       return null;
     }
 
-    return this.top;
+    return this.top.value;
   }
 
   isEmpty() {
