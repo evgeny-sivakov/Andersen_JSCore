@@ -27,14 +27,14 @@ function concatStrings(strArg, separator) {
 
 class Calculator {
   constructor(...args) {
-    if (!Calculator.isValidNumber(num_1) || !Calculator.isValidNumber(num_2)) {
+    if (!Calculator.isValidNumber(num1) || !Calculator.isValidNumber(num2)) {
       throw new Error('Ошибка!');
     } else if (args.length !== 2) {
       throw new Error('Ошибка! Неправильное количество аргументов')
     }
 
-    this.num_1 = args[0];
-    this.num_2 = args[1];
+    this.num1 = args[0];
+    this.num2 = args[1];
   }
 
   static isValidNumber(num) {
@@ -49,44 +49,44 @@ class Calculator {
     currentState[prop] = newValue;
   }
 
-  static calc(operation, operand_1, operand_2) {
+  static calc(operation, operand1, operand2) {
     switch (operation) {
       case 'add':
-        return operand_1 + operand_2;
+        return operand1 + operand2;
       case 'multiply':
-        return operand_1 * operand_2;
+        return operand1 * operand2;
       case 'subtract':
-        return operand_1 - operand_2;
+        return operand1 - operand2;
       case 'divide':
-        if (operand_2 === 0) {
+        if (operand2 === 0) {
           throw new Error('Ошибка!');
         }
 
-        return operand_1 / operand_2;
+        return operand1 / operand2;
     }
   }
 
   setX = (num) => {
-    Calculator.updateProp('num_1', this, num);
+    Calculator.updateProp('num1', this, num);
   };
 
   setY = (num) => {
-    Calculator.updateProp('num_2', this, num);
+    Calculator.updateProp('num2', this, num);
   };
 
   logSum = () => {
-    console.log(Calculator.calc('add', this.num_1, this.num_2));
+    console.log(Calculator.calc('add', this.num1, this.num2));
   };
 
   logMul = () => {
-    console.log(Calculator.calc('multiply', this.num_1, this.num_2));
+    console.log(Calculator.calc('multiply', this.num1, this.num2));
   };
 
   logSub = () => {
-    console.log(Calculator.calc('subtract', this.num_1, this.num_2));
+    console.log(Calculator.calc('subtract', this.num1, this.num2));
   };
 
   logDiv = () => {
-    console.log(Calculator.calc('divide', this.num_1, this.num_2));
+    console.log(Calculator.calc('divide', this.num1, this.num2));
   };
 }
