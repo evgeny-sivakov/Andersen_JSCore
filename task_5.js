@@ -1,7 +1,14 @@
+class Node {
+  constructor(value) {
+    this.value = value;
+    this.next = null;
+  }
+}
+
 class Stack {
   constructor(capacity = 10) {
-    this.items = [];
-    this.top = 0;
+    this.top = null;
+    this.length = 0;
     this.capacity = capacity;
   }
 
@@ -21,14 +28,15 @@ class Stack {
   }
 
   push(element) {
-    if (this.top === this.capacity) {
+    if (this.length === this.capacity) {
       throw new Error('Ошибка!');
     }
 
-    this.items[this.top] = element;
-    this.top = this.top + 1;
+    const newNode = new Node(element);
 
-    return element;
+    newNode.next = this.top;
+    this.top = newNode;
+    this.length += 1; 
   }
 
   pop() {
@@ -36,12 +44,12 @@ class Stack {
       throw new Error('Ошибка!');
     }
 
-    const poped = this.items[this.top];
+    const popped = this.top;
 
-    delete this.items[this.top - 1];
-    this.top = this.top - 1;
+    this.top = popped.next;
+    this.length -= 1;
 
-    return poped;
+    return popped;
   }
 
   peek() {
@@ -49,11 +57,11 @@ class Stack {
       return null;
     }
 
-    return this.items[this.top - 1];
+    return this.top;
   }
 
   isEmpty() {
-    return this.top === 0;
+    return this.length === 0;
   }
 
   toArray() {
