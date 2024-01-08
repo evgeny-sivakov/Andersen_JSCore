@@ -3,7 +3,18 @@ function isValidNumber(num) {
 }
 
 function isValidString(str) {
-  return typeof str === 'string' && str.length > 0 && str.length <= 50;
+  return typeof str === 'string';
+}
+
+function isInRange(value, min, max = null) {
+  let num;
+  if (isValidString(value)) {
+    num = value.length;
+  } else if (isValidNumber(value)) {
+    num = value;
+  }
+
+  return num >= min && num <= max;
 }
 
 class Car {
@@ -55,7 +66,7 @@ class Car {
   }
 
   fillUpGasTank(ltrs) {
-    if (!isValidNumber(ltrs) || ltrs <= 0) {
+    if (!isValidNumber(ltrs) || !isInRange(ltrs, 0)) {
       throw new Error('Неверное количество топлива для заправки');
     }
 
@@ -69,7 +80,7 @@ class Car {
   }
 
   drive(speed, hours) {
-    if (!isValidNumber(speed) || speed <= 0) {
+    if (!isValidNumber(speed) || !isInRange(speed, 0)) {
       throw new Error('Неверная скорость');
     } else if (!isValidNumber(hours) || hours <= 0) {
       throw new Error('Неверное количество часов');
@@ -95,7 +106,7 @@ class Car {
   }
 
   set brand(str) {
-    if (!isValidString(str)) {
+    if (!isValidString(str) || !isInRange(str, 0, 50)) {
       throw new Error('Неверное название бренда');
     }
 
@@ -107,7 +118,7 @@ class Car {
   }
 
   set model(str) {
-    if (!isValidString(str)) {
+    if (!isValidString(str) || !isInRange(str, 0, 50)) {
       throw new Error('Неверное название модели');
     }
 
@@ -121,7 +132,7 @@ class Car {
   set yearOfManufacturing(year) {
     const currentYear = new Date().getFullYear();
 
-    if (!isValidNumber(year) || year < 1900 || year > currentYear) {
+    if (!isValidNumber(year) || !isInRange(year, 1900, currentYear)) {
       throw new Error('Неверный год выпуска');
     }
 
@@ -133,7 +144,7 @@ class Car {
   }
 
   set maxSpeed(speed) {
-    if (!isValidNumber(speed) || speed < 100 || speed > 300) {
+    if (!isValidNumber(speed) || !isInRange(speed, 100, 300)) {
       throw new Error('Неверная максимальная скорость');
     }
 
@@ -145,7 +156,7 @@ class Car {
   }
 
   set maxFuelVolume(ltrs) {
-    if (!isValidNumber(ltrs) || ltrs < 5 || ltrs > 20) {
+    if (!isValidNumber(ltrs) || !isInRange(ltrs, 5, 20)) {
       throw new Error('Неверный максимальный объем топливного бака');
     }
 
@@ -157,7 +168,7 @@ class Car {
   }
 
   set fuelConsumption(ltrs) {
-    if (!isValidNumber(ltrs) || ltrs < 5 || ltrs > 20) {
+    if (!isValidNumber(ltrs) || !isInRange(ltrs, 5, 20)) {
       throw new Error('Неверный расход топлива');
     }
 
