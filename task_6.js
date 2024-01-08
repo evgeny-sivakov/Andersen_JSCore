@@ -1,3 +1,11 @@
+function isValidNumber(num) {
+  return typeof num === 'number' && isFinite(num);
+}
+
+function isValidString(str) {
+  return typeof str === 'string' && str.length >= 1 && str.length <= 50;
+}
+
 class Car {
   #brand;
   #model;
@@ -45,7 +53,7 @@ class Car {
   }
 
   fillUpGasTank(ltrs) {
-    if (typeof ltrs !== 'number' || !isFinite(ltrs) || ltrs <= 0) {
+    if (!isValidNumber(ltrs) || num <= 0) {
       throw new Error('Неверное количество топлива для заправки');
     }
 
@@ -59,9 +67,9 @@ class Car {
   }
 
   drive(speed, hours) {
-    if (typeof speed !== 'number' || !isFinite(speed) || speed <= 0) {
+    if (!isValidNumber(speed) || num <= 0) {
       throw new Error('Неверная скорость');
-    } else if (typeof hours !== 'number' || !isFinite(hours) || hours <= 0) {
+    } else if (!isValidPositiveNumber(hours)) {
       throw new Error('Неверное количество часов');
     } else if (speed > this.#maxSpeed) {
       throw new Error('Машина не может ехать так быстро');
@@ -85,7 +93,7 @@ class Car {
   }
 
   set brand(str) {
-    if (typeof str !== 'string' || str.length < 1 || str.length > 50) {
+    if (!isValidString(str)) {
       throw new Error('Неверное название бренда');
     }
 
@@ -97,7 +105,7 @@ class Car {
   }
 
   set model(str) {
-    if (typeof str !== 'string' || str.length < 1 || str.length > 50) {
+    if (!isValidString(str)) {
       throw new Error('Неверное название модели');
     }
 
@@ -111,12 +119,7 @@ class Car {
   set yearOfManufacturing(year) {
     const currentYear = new Date().getFullYear();
 
-    if (
-      typeof year !== 'number' ||
-      !isFinite(year) ||
-      year < 1900 ||
-      year >= currentYear
-    ) {
+    if (!isValidNumber(year) || year < 1900 || year > currentYear) {
       throw new Error('Неверный год выпуска');
     }
 
@@ -124,28 +127,23 @@ class Car {
   }
 
   get maxSpeed() {
-    return `${this.#maxSpeed} km/h`;
+    return `${this.#maxSpeed}km/h`;
   }
 
   set maxSpeed(speed) {
-    if (
-      typeof speed !== 'number' ||
-      !isFinite(speed) ||
-      speed < 100 ||
-      speed >= 300
-    ) {
-      throw new Error('Неверная максимальная скороскть');
+    if (!isValidNumber(speed) || speed < 100 || speed > 300) {
+      throw new Error('Неверная максимальная скорость');
     }
 
     this.#maxSpeed = speed;
   }
 
   get maxFuelVolume() {
-    return `${this.#maxFuelVolume} l`;
+    return `${this.#maxFuelVolume}l`;
   }
 
   set maxFuelVolume(ltrs) {
-    if (typeof ltrs !== 'number' || !isFinite(ltrs) || ltrs < 5 || ltrs >= 20) {
+    if (!isValidNumber(ltrs) || ltrs < 5 || ltrs > 20) {
       throw new Error('Неверный максимальный объем топливного бака');
     }
 
@@ -153,11 +151,11 @@ class Car {
   }
 
   get fuelConsumption() {
-    return `${this.#fuelConsumption} L/100 km`;
+    return `${this.#fuelConsumption}L/100km`;
   }
 
   set fuelConsumption(ltrs) {
-    if (typeof ltrs !== 'number' || !isFinite(ltrs) || ltrs < 5 || ltrs >= 20) {
+    if (!isValidNumber(ltrs) || ltrs < 5 || ltrs > 20) {
       throw new Error('Неверный расход топлива');
     }
 
@@ -165,7 +163,7 @@ class Car {
   }
 
   get currentFuelVolume() {
-    return `${this.#currentFuelVolume} l`;
+    return `${this.#currentFuelVolume}l`;
   }
 
   get isStarted() {
@@ -173,6 +171,6 @@ class Car {
   }
 
   get mileage() {
-    return `${this.#mileage} km`;
+    return `${this.#mileage}km`;
   }
 }
