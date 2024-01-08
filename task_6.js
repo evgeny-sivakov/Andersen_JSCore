@@ -3,7 +3,7 @@ function isValidNumber(num) {
 }
 
 function isValidString(str) {
-  return typeof str === 'string' && str.length >= 1 && str.length <= 50;
+  return typeof str === 'string' && str.length > 0 && str.length <= 50;
 }
 
 class Car {
@@ -24,8 +24,8 @@ class Car {
     maxSpeed,
     maxFuelVolume,
     fuelConsumption,
-    currentFuelVolume,
-    mileage
+    currentFuelVolume = 0,
+    mileage = 0
   ) {
     this.#brand = brand;
     this.#model = model;
@@ -33,9 +33,9 @@ class Car {
     this.#maxSpeed = maxSpeed;
     this.#maxFuelVolume = maxFuelVolume;
     this.#fuelConsumption = fuelConsumption;
-    this.#currentFuelVolume = currentFuelVolume || 0;
+    this.#currentFuelVolume = currentFuelVolume;
     this.#isStarted = false;
-    this.#mileage = mileage || 0;
+    this.#mileage = mileage;
   }
 
   start() {
@@ -50,10 +50,12 @@ class Car {
     if (!this.#isStarted) {
       throw new Error('Машина ещё не заведена');
     }
+
+    this.#isStarted = false;
   }
 
   fillUpGasTank(ltrs) {
-    if (!isValidNumber(ltrs) || num <= 0) {
+    if (!isValidNumber(ltrs) || ltrs <= 0) {
       throw new Error('Неверное количество топлива для заправки');
     }
 
@@ -67,9 +69,9 @@ class Car {
   }
 
   drive(speed, hours) {
-    if (!isValidNumber(speed) || num <= 0) {
+    if (!isValidNumber(speed) || speed <= 0) {
       throw new Error('Неверная скорость');
-    } else if (!isValidPositiveNumber(hours)) {
+    } else if (!isValidNumber(hours) || hours <= 0) {
       throw new Error('Неверное количество часов');
     } else if (speed > this.#maxSpeed) {
       throw new Error('Машина не может ехать так быстро');
@@ -77,15 +79,15 @@ class Car {
       throw new Error('Машина должна быть заведена, чтобы ехать');
     }
 
-    const desiredDistance = speed * hours;
-    const requiredFuelVolume = desiredDistance * (this.#fuelConsumption / 100);
+    const expectedDistance = speed * hours;
+    const requiredFuel = expectedDistance * (this.#fuelConsumption / 100);
 
-    if (requiredFuelVolume > this.#currentFuelVolume) {
+    if (requiredFuel > this.#currentFuelVolume) {
       throw new Error('Недостаточно топлива');
     }
 
-    this.#currentFuelVolume = this.#currentFuelVolume - requiredFuelVolume;
-    this.#mileage = this.#mileage + desiredDistance;
+    this.#currentFuelVolume -= requiredFuel;
+    this.#mileage += expectedDistance;
   }
 
   get brand() {
